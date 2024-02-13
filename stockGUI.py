@@ -3,17 +3,21 @@ import pandas as pd
 import tkinter as tk
 from tkinter import messagebox
 
-# Function to get real-time stock data
 def get_stock_data(symbol):
-    api_key = 'YOUR_API_KEY'  # Replace 'YOUR_API_KEY' with your actual API key from Alpha Vantage
+    api_key = 'YOUR_API_KEY'  # Replace 'YOUR_API_KEY' with your actual API key from Alphavantage
     url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
     response = requests.get(url)
     data = response.json()
     return data['Global Quote']
 
-# Function to add a stock to the portfolio
+# the function get_stock_data(symbol) fetches real-time stock data using the Alpha Vantage API. The symbol parameter represents the stock symbol or ticker symbol of a publicly traded company.
+
+# Stock symbols or ticker symbols are typically composed of a combination of letters and sometimes numbers, and they represent a particular publicly traded company on a stock exchange. For example:
+
+# Apple Inc.: AAPL
+# Microsoft Corporation: MSFT
+# Amazon.com Inc.: AMZN
 def add_stock():
-    global entry_symbol
     symbol = entry_symbol.get().upper()
     stock_data = get_stock_data(symbol)
     if stock_data:
@@ -22,9 +26,7 @@ def add_stock():
     else:
         messagebox.showerror("Error", f"Failed to add {symbol} to portfolio. Please check the symbol.")
 
-# Function to remove a stock from the portfolio
 def remove_stock():
-    global entry_symbol
     symbol = entry_symbol.get().upper()
     if symbol in portfolio:
         del portfolio[symbol]
@@ -32,7 +34,6 @@ def remove_stock():
     else:
         messagebox.showerror("Error", f"{symbol} is not in the portfolio.")
 
-# Function to display the portfolio
 def display_portfolio():
     if portfolio:
         df = pd.DataFrame.from_dict(portfolio, orient='index')
@@ -40,32 +41,34 @@ def display_portfolio():
     else:
         messagebox.showinfo("Portfolio", "Portfolio is empty.")
 
-# Main program loop
 def main():
-    global entry_symbol
+    global entry_symbol, portfolio
+    portfolio = {}
+    
     root = tk.Tk()
     root.title("Stock Portfolio Tracker")
+    root.configure(bg="gray")
 
-    label_symbol = tk.Label(root, text="Enter Stock Symbol:")
+    label_symbol = tk.Label(root, text="Enter Stock Symbol:", bg="gray")
     label_symbol.pack()
 
-    entry_symbol = tk.Entry(root)
-    entry_symbol.pack()
+    entry_symbol_var = tk.StringVar()
+    entry_symbol = tk.Entry(root, textvariable=entry_symbol_var, font=('Arial', 16, 'bold'), width=30)
+    entry_symbol.pack(pady=10, padx=20)
 
-    button_add = tk.Button(root, text="Add Stock", command=add_stock, bg="#4CAF50", fg="white", padx=10, pady=5)
-    button_add.pack()
+    button_add = tk.Button(root, text="Add Stock", command=add_stock, bg="#4CAF50", fg="white", width=30, height=5, font=('Arial', 12, 'bold'))
+    button_add.pack(pady=10)
 
-    button_remove = tk.Button(root, text="Remove Stock", command=remove_stock, bg="#f44336", fg="white", padx=10, pady=5)
-    button_remove.pack()
+    button_remove = tk.Button(root, text="Remove Stock", command=remove_stock, bg="#f44336", fg="white", width=30, height=5, font=('Arial', 12, 'bold'))
+    button_remove.pack(pady=10)
 
-    button_display = tk.Button(root, text="Display Portfolio", command=display_portfolio, bg="#2196F3", fg="white", padx=10, pady=5)
-    button_display.pack()
+    button_display = tk.Button(root, text="Display Portfolio", command=display_portfolio, bg="#2196F3", fg="white", width=30, height=5, font=('Arial', 12, 'bold'))
+    button_display.pack(pady=10)
 
-    button_exit = tk.Button(root, text="Exit", command=root.destroy, bg="gray", fg="white", padx=10, pady=5)
-    button_exit.pack()
+    button_exit = tk.Button(root, text="Exit", command=root.destroy, bg="gray", fg="white", width=5, height=1, font=('Arial', 10, 'bold'))
+    button_exit.pack(pady=10)
 
     root.mainloop()
 
 if __name__ == "__main__":
-    portfolio = {}
     main()
