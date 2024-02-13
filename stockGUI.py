@@ -10,26 +10,6 @@ def get_stock_data(symbol):
     data = response.json()
     return data['Global Quote']
 
-# the function get_stock_data(symbol) fetches real-time 
-# stock data using the Alpha Vantage API. The symbol parameter represents the stock symbol or ticker symbol of a publicly traded company.
-
-# Stock symbols or ticker symbols are typically composed of a combination of letters and
-# sometimes numbers, and they represent a particular publicly traded company on a stock exchange.
-# For example:
-
-# Apple Inc.: AAPL
-# Microsoft Corporation: MSFT
-# Amazon.com Inc.: AMZN
-# Google's parent company Alphabet Inc.: GOOGL
-# Facebook, Inc.: FB
-# Tesla, Inc.: TSLA
-# Netflix, Inc.: NFLX
-# Coca-Cola Company: KO
-# Pfizer Inc.: PFE
-# Johnson & Johnson: JNJ
-# Visa Inc.: V
-# Bank of America Corporation: BAC
-# General Electric Company: GE
 def add_stock():
     symbol = entry_symbol.get().upper()
     stock_data = get_stock_data(symbol)
