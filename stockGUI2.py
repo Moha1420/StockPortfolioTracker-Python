@@ -3,9 +3,10 @@ import pandas as pd
 import tkinter as tk
 from tkinter import messagebox
 
-
 # Dictionary to store registered users and their passwords
 registered_users = {}
+logged_in_user = None
+portfolio = {}
 
 # Function to authenticate user credentials
 def authenticate(username, password):
@@ -102,6 +103,20 @@ def display_portfolio():
     else:
         messagebox.showinfo("Portfolio", "Portfolio is empty.")
 
+# Function to register a user
+def register():
+    username = entry_username.get()
+    password = entry_password.get()
+    if username.isalpha() and password.isdigit():
+        if username not in registered_users:
+            registered_users[username] = password
+            messagebox.showinfo("Registration", "Registration successful.")
+            show_login_ui()  # Navigate to login after successful registration
+        else:
+            messagebox.showerror("Registration Failed", "Username already exists.")
+    else:
+        messagebox.showerror("Registration Failed", "Invalid username or password. Username should be text only and password should be number only.")
+
 # Main program loop to Display UI using Python Tkinter 
 def main():
     global entry_symbol, entry_username, entry_password, login_frame, portfolio_frame, portfolio, logged_in_user
@@ -151,8 +166,6 @@ def main():
     button_logout.pack(pady=20)
 
     # Initial setup
-    logged_in_user = None
-    portfolio = {}
     show_login_ui()
 
     root.mainloop()
